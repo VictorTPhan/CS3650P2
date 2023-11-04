@@ -1,5 +1,7 @@
-import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.xml.crypto.Data;
 
 public class AdminPanel extends JFrame {
     private static AdminPanel instance;
@@ -14,21 +16,31 @@ public class AdminPanel extends JFrame {
     }
 
     private AdminPanel() {
-        JButton addUserButton = new JButton("Add User");
-        addUserButton.setBounds(620, 20, 150, 75);
-        add(addUserButton);
-
         JTextArea userUIDTextArea = new JTextArea(5, 5);
         userUIDTextArea.setBounds(450, 20, 150, 75);
         add(userUIDTextArea);
 
-        JButton addGroupButton = new JButton("Add Group");
-        addGroupButton.setBounds(620, 110, 150, 75);
-        add(addGroupButton);
+        JButton addUserButton = new JButton("Add User");
+        addUserButton.setBounds(620, 20, 150, 75);
+        addUserButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Database.getInstance().getRoot().addMember(new User(userUIDTextArea.getText()).getUID());
+            }
+        });
+        add(addUserButton);
 
         JTextArea groupUIDTextArea = new JTextArea(5, 5);
         groupUIDTextArea.setBounds(450, 110, 150, 75);
         add(groupUIDTextArea);
+
+        JButton addGroupButton = new JButton("Add Group");
+        addGroupButton.setBounds(620, 110, 150, 75);
+        addGroupButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Database.getInstance().getRoot().addSubGroup(new UserGroup(groupUIDTextArea.getText()).getUID());
+            }
+        });
+        add(addGroupButton);
 
         JButton openUserViewButton = new JButton("Open User View");
         openUserViewButton.setBounds(620, 200, 150, 75);

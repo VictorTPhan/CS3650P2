@@ -27,8 +27,8 @@ public class User {
         return joinedGroup;
     }
 
-    public String getUID() {
-        return uid.getUID();
+    public UID getUID() {
+        return uid;
     }
 
     public List<UID> getFollowers() {
