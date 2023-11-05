@@ -1,6 +1,11 @@
+package project;
+
 import java.util.*;
 
-public class UserGroup {
+import visitor_pattern.Entity;
+import visitor_pattern.Visitor;
+
+public class UserGroup implements Entity {
     private String name;
     private GroupUID groupUID;
     private HashSet<UID> members;
@@ -25,11 +30,16 @@ public class UserGroup {
         return subGroups;
     }
 
+    public HashSet<UID> getMembers() {
+        return members;
+    }
+
     public boolean addMember(UID newMember) {
         if (members.contains(newMember)) {
             return false;
         } else {
             members.add(newMember);
+            Database.getInstance().newEntryCallback();
             return true;
         }
     }
@@ -39,7 +49,13 @@ public class UserGroup {
             return false;
         } else {
             subGroups.add(subGroup.getGroup());
+            Database.getInstance().newEntryCallback();
             return true;
         }
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }

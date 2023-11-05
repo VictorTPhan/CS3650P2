@@ -1,6 +1,15 @@
+package project;
+
 import java.util.*;
 
-public class User {
+import project.GroupUID;
+import project.ITweet;
+import project.Tweet;
+import project.UID;
+import visitor_pattern.Entity;
+import visitor_pattern.Visitor;
+
+public class User implements Entity {
     private String username;
     private UID uid;
     private GroupUID joinedGroup;
@@ -47,8 +56,9 @@ public class User {
         return tweets;
     }
 
-    public Tweet Tweet(String content) {
+    public Tweet tweet(String content) {
         Tweet tweet = new Tweet(content, uid);
+        tweets.add(tweet);
         return tweet;
     }
 
@@ -61,5 +71,10 @@ public class User {
         if (group.getGroup().addMember(uid)) {
             joinedGroup = group;
         }
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }

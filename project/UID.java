@@ -1,3 +1,5 @@
+package project;
+
 import java.util.*;
 
 public class UID {
@@ -7,6 +9,7 @@ public class UID {
     public UID(User associatedUser) {
         this.associatedUser = associatedUser;
         this.UID = UUID.randomUUID().toString();
+        System.out.println(this.UID);
     }
 
     public User getUser() {

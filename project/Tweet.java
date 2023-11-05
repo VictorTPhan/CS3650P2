@@ -1,3 +1,5 @@
+package project;
+
 public class Tweet implements ITweet {
     private String content;
     private UID poster;
