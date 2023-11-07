@@ -1,6 +1,6 @@
 package project.users;
 
-import java.util.*;
+import java.util.UUID;
 
 public class UID {
     private User associatedUser;
