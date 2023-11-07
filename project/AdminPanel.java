@@ -108,9 +108,9 @@ public class AdminPanel extends JFrame implements Listener {
         });
         add(showPositivePercentageButton);
 
-        tree = new AdminObjectTree();
-        tree.setBounds(-130, 15, 400, 600);
-        add(tree);
+        // tree = new AdminObjectTree();
+        // tree.setBounds(-130, 15, 400, 600);
+        // add(tree);
 
         setSize(800, 600);
         setLayout(null);
