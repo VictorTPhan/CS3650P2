@@ -3,7 +3,7 @@ package database;
 import observer_pattern.Listener;
 import observer_pattern.Subject;
 import project.groups.UserGroup;
-import project.users.UID;
+import project.users.UserUID;
 import visitor_pattern.visitors.GroupCounter;
 import visitor_pattern.visitors.MessageCounter;
 import visitor_pattern.visitors.PositiveTweetCounter;
@@ -88,7 +88,7 @@ public class Database implements Subject {
      * @param UIDString A String representation of the UID of the target user.
      * @return A UID object of the user if they were found. Otherwise, returns null.
      */
-    public UID validateUID(String UIDString) {
+    public UserUID validateUID(String UIDString) {
         UserSearcher userSearcher = new UserSearcher(UIDString);
         root.accept(userSearcher);
         System.out.println("Result: " + userSearcher.getSearchResult());

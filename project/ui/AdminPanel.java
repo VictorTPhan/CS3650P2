@@ -13,7 +13,7 @@ import database.Database;
 import observer_pattern.Listener;
 import observer_pattern.Subject;
 import project.groups.UserGroup;
-import project.users.UID;
+import project.users.UserUID;
 import project.users.User;
 
 public class AdminPanel extends JFrame implements Listener {
@@ -89,7 +89,7 @@ public class AdminPanel extends JFrame implements Listener {
         openUserViewButton.setBounds(620, 200, 150, 75);
         openUserViewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                UID uid = Database.getInstance().validateUID(userViewUIDTextArea.getText());
+                UserUID uid = Database.getInstance().validateUID(userViewUIDTextArea.getText());
                 if (uid != null) {
                     new UserView(uid);
                 }
@@ -168,7 +168,7 @@ public class AdminPanel extends JFrame implements Listener {
     }
 
     private void addRootGroup(UserGroup rootGroup) {
-        for (UID member : rootGroup.getMembers()) {
+        for (UserUID member : rootGroup.getMembers()) {
             root.add(new DefaultMutableTreeNode(member.getUser()));
         }
         for (UserGroup subGroup : rootGroup.getSubGroups()) {
@@ -178,7 +178,7 @@ public class AdminPanel extends JFrame implements Listener {
 
     private void addGroupToTreeNode(DefaultMutableTreeNode current, UserGroup group) {
         DefaultMutableTreeNode groupNode = new DefaultMutableTreeNode(group);
-        for (UID member : group.getMembers()) {
+        for (UserUID member : group.getMembers()) {
             groupNode.add(new DefaultMutableTreeNode(member.getUser()));
         }
         for (UserGroup subGroup : group.getSubGroups()) {

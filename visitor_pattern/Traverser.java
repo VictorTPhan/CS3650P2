@@ -1,7 +1,7 @@
 package visitor_pattern;
 
 import project.groups.UserGroup;
-import project.users.UID;
+import project.users.UserUID;
 import project.users.User;
 
 /**
@@ -35,7 +35,7 @@ public abstract class Traverser implements Visitor {
         onVisitedUserGroup(userGroup);
 
         // Perform an operation on all members of this group.
-        for (UID member : userGroup.getMembers()) {
+        for (UserUID member : userGroup.getMembers()) {
             member.getUser().accept(this);
         }
 

@@ -1,13 +1,13 @@
 package project.tweets;
 
-import project.users.UID;
+import project.users.UserUID;
 import project.users.User;
 
 public class Tweet implements ITweet {
     private String content;
-    private UID poster;
+    private UserUID poster;
 
-    public Tweet(String content, UID poster) {
+    public Tweet(String content, UserUID poster) {
         this.content = content;
         this.poster = poster;
     }

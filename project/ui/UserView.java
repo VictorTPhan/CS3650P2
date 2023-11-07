@@ -13,14 +13,14 @@ import javax.swing.JTextArea;
 
 import database.Database;
 import project.tweets.ITweet;
-import project.users.UID;
+import project.users.UserUID;
 
 public class UserView extends JFrame {
-    private UID uid;
+    private UserUID uid;
     private JList followingList;
     private JList newsFeed;
 
-    public UserView(UID uid) {
+    public UserView(UserUID uid) {
         this.uid = uid;
         this.uid.getUser().linkToNewView(this);
 
@@ -36,7 +36,7 @@ public class UserView extends JFrame {
         followUserButton.setBounds(180, 30, 150, 75);
         followUserButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                UID otherUID = Database.getInstance().validateUID(userUIDTextArea.getText());
+                UserUID otherUID = Database.getInstance().validateUID(userUIDTextArea.getText());
                 if (otherUID != null) {
                     uid.getUser().followUser(otherUID);
                     refreshFollowingListView();
@@ -73,7 +73,7 @@ public class UserView extends JFrame {
 
     private String[] getFollowing() {
         List<String> output = new ArrayList<>();
-        for (UID following : uid.getUser().getFollowings()) {
+        for (UserUID following : uid.getUser().getFollowings()) {
             output.add(following.getUser().getUsername());
         }
         return output.toArray(new String[0]);
@@ -90,7 +90,7 @@ public class UserView extends JFrame {
 
     private String[] getNewsFeed() {
         List<String> output = new ArrayList<>();
-        for (UID following : uid.getUser().getFollowings()) {
+        for (UserUID following : uid.getUser().getFollowings()) {
             for (ITweet tweet : following.getUser().getTweets()) {
                 output.add(tweet.getTweet());
             }

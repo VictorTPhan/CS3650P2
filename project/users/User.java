@@ -13,18 +13,18 @@ import observer_pattern.Subject;
 
 public class User implements Entity, Subject, Listener {
     private String username;
-    private UID uid;
+    private UserUID uid;
     private GroupUID joinedGroup;
-    private List<UID> followers;
+    private List<UserUID> followers;
     private List<Listener> followListeners;
-    private List<UID> followings;
+    private List<UserUID> followings;
     private List<ITweet> newsFeed;
     private List<ITweet> tweets;
     private UserView associatedUserView = null;
 
     public User(String username) {
         this.username = username;
-        this.uid = new UID(this);
+        this.uid = new UserUID(this);
         joinedGroup = null;
         this.followers = new ArrayList<>();
         this.followings = new ArrayList<>();
@@ -41,15 +41,15 @@ public class User implements Entity, Subject, Listener {
         return joinedGroup;
     }
 
-    public UID getUID() {
+    public UserUID getUID() {
         return uid;
     }
 
-    public List<UID> getFollowers() {
+    public List<UserUID> getFollowers() {
         return followers;
     }
 
-    public List<UID> getFollowings() {
+    public List<UserUID> getFollowings() {
         return followings;
     }
 
@@ -68,7 +68,7 @@ public class User implements Entity, Subject, Listener {
         return tweet;
     }
 
-    public void followUser(UID other) {
+    public void followUser(UserUID other) {
         this.followings.add(other);
         other.getUser().followers.add(uid);
         listenTo(other.getUser());

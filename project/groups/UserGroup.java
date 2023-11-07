@@ -3,14 +3,14 @@ package project.groups;
 import java.util.*;
 
 import database.Database;
-import project.users.UID;
+import project.users.UserUID;
 import visitor_pattern.Entity;
 import visitor_pattern.Visitor;
 
 public class UserGroup implements Entity {
     private String name;
     private GroupUID groupUID;
-    private HashSet<UID> members;
+    private HashSet<UserUID> members;
     private HashSet<UserGroup> subGroups;
 
     public UserGroup(String name) {
@@ -32,11 +32,11 @@ public class UserGroup implements Entity {
         return subGroups;
     }
 
-    public HashSet<UID> getMembers() {
+    public HashSet<UserUID> getMembers() {
         return members;
     }
 
-    public boolean addMember(UID newMember) {
+    public boolean addMember(UserUID newMember) {
         if (members.contains(newMember)) {
             return false;
         } else {
