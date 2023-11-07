@@ -2,15 +2,25 @@ package project.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import database.Database;
+import observer_pattern.Listener;
+import observer_pattern.Subject;
 import project.groups.UserGroup;
 import project.users.UID;
 import project.users.User;
 
-public class AdminPanel extends JFrame {
+public class AdminPanel extends JFrame implements Listener {
     private static AdminPanel instance;
+    DefaultTreeModel treeModel;
+    DefaultMutableTreeNode root;
+    JTree tree;
 
     public static AdminPanel getInstance() {
         if (instance == null) {
@@ -22,6 +32,8 @@ public class AdminPanel extends JFrame {
     }
 
     private AdminPanel() {
+        listenTo(Database.getInstance());
+
         JTextArea userUIDTextArea = new JTextArea(5, 5);
         userUIDTextArea.setBounds(450, 20, 150, 75);
         add(userUIDTextArea);
@@ -30,7 +42,17 @@ public class AdminPanel extends JFrame {
         addUserButton.setBounds(620, 20, 150, 75);
         addUserButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Database.getInstance().getRoot().addMember(new User(userUIDTextArea.getText()).getUID());
+                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+                if (selectedNode != null) {
+                    Object userObject = selectedNode.getUserObject();
+                    if (userObject instanceof User) {
+                        JOptionPane.showMessageDialog(null, "You cannot add a user inside another user.");
+                    } else if (userObject instanceof UserGroup) {
+                        ((UserGroup) userObject).addMember(new User(userUIDTextArea.getText()).getUID());
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please select a node to add a child node.");
+                }
             }
         });
         add(addUserButton);
@@ -43,7 +65,18 @@ public class AdminPanel extends JFrame {
         addGroupButton.setBounds(620, 110, 150, 75);
         addGroupButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Database.getInstance().getRoot().addSubGroup(new UserGroup(groupUIDTextArea.getText()).getUID());
+                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+                if (selectedNode != null) {
+                    Object userObject = selectedNode.getUserObject();
+                    if (userObject instanceof User) {
+                        JOptionPane.showMessageDialog(null, "You cannot add a group inside another user.");
+                    } else if (userObject instanceof UserGroup) {
+                        ((UserGroup) userObject).addSubGroup(new UserGroup(groupUIDTextArea.getText()).getUID());
+                    } else {
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please select a node to add a child node.");
+                }
             }
         });
         add(addGroupButton);
@@ -58,7 +91,6 @@ public class AdminPanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 UID uid = Database.getInstance().validateUID(userViewUIDTextArea.getText());
                 if (uid != null) {
-                    System.out.println("Making new window to view user");
                     new UserView(uid);
                 }
             }
@@ -105,8 +137,78 @@ public class AdminPanel extends JFrame {
         });
         add(showPositivePercentageButton);
 
+        // Create the JFrame and JTree
+        root = new DefaultMutableTreeNode(Database.getInstance().getRoot());
+        treeModel = new DefaultTreeModel(root);
+        tree = new JTree(treeModel);
+
+        // Add a TreeSelectionListener to the JTree
+        tree.addTreeSelectionListener(new TreeSelectionListener() {
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
+                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+                if (selectedNode != null) {
+                    Object userObject = selectedNode.getUserObject();
+                    if (userObject instanceof User) {
+                        userViewUIDTextArea.setText(((User) userObject).getUID().getUID());
+                    }
+                }
+            }
+        });
+
+        JScrollPane pane = new JScrollPane(tree);
+        pane.setBounds(0, 0, 400, 400);
+
+        // Add the tree and panel to the JFrame
+        add(pane);
+
         setSize(800, 600);
         setLayout(null);
         setVisible(true);
     }
+
+    private void addRootGroup(UserGroup rootGroup) {
+        for (UID member : rootGroup.getMembers()) {
+            root.add(new DefaultMutableTreeNode(member.getUser()));
+        }
+        for (UserGroup subGroup : rootGroup.getSubGroups()) {
+            addGroupToTreeNode(root, subGroup);
+        }
+    }
+
+    private void addGroupToTreeNode(DefaultMutableTreeNode current, UserGroup group) {
+        DefaultMutableTreeNode groupNode = new DefaultMutableTreeNode(group);
+        for (UID member : group.getMembers()) {
+            groupNode.add(new DefaultMutableTreeNode(member.getUser()));
+        }
+        for (UserGroup subGroup : group.getSubGroups()) {
+            addGroupToTreeNode(groupNode, subGroup);
+        }
+        current.add(groupNode);
+    }
+
+    @Override
+    public void update() {
+        System.out.println("Refreshing Tree");
+
+        // Clear the existing nodes
+        root.removeAllChildren();
+        treeModel.reload();
+
+        addRootGroup(Database.getInstance().getRoot());
+
+        // Reload the tree model to reflect the changes
+        treeModel.reload();
+    }
+
+    @Override
+    public void listenTo(Subject s) {
+        s.register(this);
+    }
+
+    @Override
+    public void stopListeningTo(Subject s) {
+        s.deregister(this);
+    }
+
 }

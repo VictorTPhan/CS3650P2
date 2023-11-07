@@ -48,8 +48,10 @@ public class UserGroup implements Entity {
 
     public boolean addSubGroup(GroupUID subGroup) {
         if (subGroups.contains(subGroup.getGroup())) {
+            System.out.println("Can't add this group");
             return false;
         } else {
+            System.out.println("Adding subgroup");
             subGroups.add(subGroup.getGroup());
             Database.getInstance().newEntryCallback();
             return true;
@@ -59,5 +61,10 @@ public class UserGroup implements Entity {
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public String toString() {
+        return getGroupName();
     }
 }

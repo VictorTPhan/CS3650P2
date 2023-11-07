@@ -131,4 +131,9 @@ public class User implements Entity, Subject, Listener {
             l.update();
         }
     }
+
+    @Override
+    public String toString() {
+        return getUsername();
+    }
 }
