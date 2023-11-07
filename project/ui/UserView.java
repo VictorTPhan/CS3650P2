@@ -1,4 +1,4 @@
-package project;
+package project.ui;
 
 import java.util.*;
 import java.awt.event.ActionEvent;
@@ -10,6 +10,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextArea;
+
+import project.tweets.ITweet;
+import project.users.UID;
+import singletons.Database;
 
 public class UserView extends JFrame {
     private UID uid;

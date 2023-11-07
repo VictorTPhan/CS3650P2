@@ -1,4 +1,7 @@
-package project;
+package project.tweets;
+
+import project.users.UID;
+import project.users.User;
 
 public class Tweet implements ITweet {
     private String content;

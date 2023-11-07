@@ -1,10 +1,11 @@
-package visitor_pattern;
+package visitor_pattern.visitors;
 
 import java.util.*;
 
-import project.ITweet;
-import project.User;
-import project.UserGroup;
+import project.groups.UserGroup;
+import project.tweets.ITweet;
+import project.users.User;
+import visitor_pattern.Traverser;
 
 public class PositiveTweetCounter extends Traverser {
 

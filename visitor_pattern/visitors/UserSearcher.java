@@ -1,8 +1,9 @@
-package visitor_pattern;
+package visitor_pattern.visitors;
 
-import project.UID;
-import project.User;
-import project.UserGroup;
+import project.groups.UserGroup;
+import project.users.UID;
+import project.users.User;
+import visitor_pattern.Traverser;
 
 public class UserSearcher extends Traverser {
 

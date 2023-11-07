@@ -1,7 +1,7 @@
 package visitor_pattern;
 
-import project.User;
-import project.UserGroup;
+import project.groups.UserGroup;
+import project.users.User;
 
 public interface Visitor {
     void visit(User user);

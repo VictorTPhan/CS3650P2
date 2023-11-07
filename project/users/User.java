@@ -1,11 +1,11 @@
-package project;
+package project.users;
 
 import java.util.*;
 
-import project.GroupUID;
-import project.ITweet;
-import project.Tweet;
-import project.UID;
+import project.groups.GroupUID;
+import project.tweets.ITweet;
+import project.tweets.Tweet;
+import project.ui.UserView;
 import visitor_pattern.Entity;
 import visitor_pattern.Visitor;
 import observer_pattern.Listener;

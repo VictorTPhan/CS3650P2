@@ -1,4 +1,4 @@
-package project;
+package project.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +7,11 @@ import javax.xml.crypto.Data;
 
 import observer_pattern.Listener;
 import observer_pattern.Subject;
+import project.groups.UserGroup;
+import project.users.UID;
+import project.users.User;
+import singletons.AdminObjectTree;
+import singletons.Database;
 
 public class AdminPanel extends JFrame implements Listener {
     private static AdminPanel instance;

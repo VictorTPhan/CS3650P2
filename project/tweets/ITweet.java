@@ -1,4 +1,6 @@
-package project;
+package project.tweets;
+
+import project.users.User;
 
 public interface ITweet {
     public String getTweet();

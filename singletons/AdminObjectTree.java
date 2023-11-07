@@ -1,4 +1,4 @@
-package project;
+package singletons;
 
 import javax.swing.JPanel;
 import javax.swing.JTree;

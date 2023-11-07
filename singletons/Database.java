@@ -1,12 +1,14 @@
-package project;
+package singletons;
 
 import observer_pattern.Listener;
 import observer_pattern.Subject;
-import visitor_pattern.GroupCounter;
-import visitor_pattern.MessageCounter;
-import visitor_pattern.PositiveTweetCounter;
-import visitor_pattern.UserCounter;
-import visitor_pattern.UserSearcher;
+import project.groups.UserGroup;
+import project.users.UID;
+import visitor_pattern.visitors.GroupCounter;
+import visitor_pattern.visitors.MessageCounter;
+import visitor_pattern.visitors.PositiveTweetCounter;
+import visitor_pattern.visitors.UserCounter;
+import visitor_pattern.visitors.UserSearcher;
 
 import java.util.*;
 

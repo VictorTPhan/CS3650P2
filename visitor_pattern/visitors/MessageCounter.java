@@ -1,7 +1,8 @@
-package visitor_pattern;
+package visitor_pattern.visitors;
 
-import project.User;
-import project.UserGroup;
+import project.groups.UserGroup;
+import project.users.User;
+import visitor_pattern.Traverser;
 
 public class MessageCounter extends Traverser {
 
