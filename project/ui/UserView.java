@@ -11,9 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextArea;
 
+import database.Database;
 import project.tweets.ITweet;
 import project.users.UID;
-import singletons.Database;
 
 public class UserView extends JFrame {
     private UID uid;
@@ -39,13 +39,7 @@ public class UserView extends JFrame {
                 UID otherUID = Database.getInstance().validateUID(userUIDTextArea.getText());
                 if (otherUID != null) {
                     uid.getUser().followUser(otherUID);
-
-                    DefaultListModel<String> newListModel = new DefaultListModel<>();
-                    String[] followings = getFollowing();
-                    for (String s : followings) {
-                        newListModel.addElement(s);
-                    }
-                    followingList.setModel(newListModel);
+                    refreshFollowingListView();
                 }
             }
         });
@@ -85,6 +79,15 @@ public class UserView extends JFrame {
         return output.toArray(new String[0]);
     }
 
+    private void refreshFollowingListView() {
+        DefaultListModel<String> newListModel = new DefaultListModel<>();
+        String[] followings = getFollowing();
+        for (String s : followings) {
+            newListModel.addElement(s);
+        }
+        followingList.setModel(newListModel);
+    }
+
     private String[] getNewsFeed() {
         List<String> output = new ArrayList<>();
         for (UID following : uid.getUser().getFollowings()) {
@@ -93,14 +96,6 @@ public class UserView extends JFrame {
             }
         }
         return output.toArray(new String[0]);
-    }
-
-    void onUserFollowingTweetedSomething(UID userFollowing) {
-
-    }
-
-    void onTweetedSomething() {
-
     }
 
     public void refresh() {

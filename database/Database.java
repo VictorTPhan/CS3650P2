@@ -1,4 +1,4 @@
-package singletons;
+package database;
 
 import observer_pattern.Listener;
 import observer_pattern.Subject;

@@ -3,20 +3,14 @@ package project.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-import javax.xml.crypto.Data;
 
-import observer_pattern.Listener;
-import observer_pattern.Subject;
+import database.Database;
 import project.groups.UserGroup;
 import project.users.UID;
 import project.users.User;
-import singletons.AdminObjectTree;
-import singletons.Database;
 
-public class AdminPanel extends JFrame implements Listener {
+public class AdminPanel extends JFrame {
     private static AdminPanel instance;
-    private Subject databaseSubject;
-    private AdminObjectTree tree;
 
     public static AdminPanel getInstance() {
         if (instance == null) {
@@ -28,8 +22,6 @@ public class AdminPanel extends JFrame implements Listener {
     }
 
     private AdminPanel() {
-        listenTo(Database.getInstance());
-
         JTextArea userUIDTextArea = new JTextArea(5, 5);
         userUIDTextArea.setBounds(450, 20, 150, 75);
         add(userUIDTextArea);
@@ -113,29 +105,8 @@ public class AdminPanel extends JFrame implements Listener {
         });
         add(showPositivePercentageButton);
 
-        // tree = new AdminObjectTree();
-        // tree.setBounds(-130, 15, 400, 600);
-        // add(tree);
-
         setSize(800, 600);
         setLayout(null);
         setVisible(true);
-    }
-
-    @Override
-    public void update() {
-        System.out.println("Admin panel refresh from database");
-    }
-
-    @Override
-    public void listenTo(Subject s) {
-        databaseSubject = s;
-        databaseSubject.register(this);
-    }
-
-    @Override
-    public void stopListeningTo(Subject s) {
-        databaseSubject.deregister(this);
-        databaseSubject = null;
     }
 }

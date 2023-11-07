@@ -2,8 +2,8 @@ package project.groups;
 
 import java.util.*;
 
+import database.Database;
 import project.users.UID;
-import singletons.Database;
 import visitor_pattern.Entity;
 import visitor_pattern.Visitor;
 
