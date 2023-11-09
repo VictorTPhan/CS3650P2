@@ -1,6 +1,5 @@
 package project.users;
 
-import project.groups.GroupUID;
 import project.tweets.ITweet;
 import project.tweets.Tweet;
 import project.ui.UserView;
