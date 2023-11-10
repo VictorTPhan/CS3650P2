@@ -15,7 +15,7 @@ public class GroupCounter extends Traverser {
     // Not used.
     @Override
     public void onVisitedUser(User user) {
-        throw new UnsupportedOperationException("Unimplemented method 'onVisitedUser'");
+
     }
 
     @Override

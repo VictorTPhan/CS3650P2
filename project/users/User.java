@@ -120,7 +120,7 @@ public class User implements Entity, Subject, Listener {
      */
     private void notifyUserView() {
         if (associatedUserView != null) {
-            associatedUserView.refresh();
+            associatedUserView.refreshNewsFeed();
         }
     }
 

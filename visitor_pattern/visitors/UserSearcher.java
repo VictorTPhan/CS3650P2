@@ -32,7 +32,7 @@ public class UserSearcher extends Traverser {
 
     @Override
     public void onVisitedUserGroup(UserGroup group) {
-        throw new UnsupportedOperationException("Unimplemented method 'onVisitedUserGroup'");
+
     }
 
     /**

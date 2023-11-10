@@ -30,6 +30,6 @@ public class MessageCounter extends Traverser {
     // Not used.
     @Override
     public void onVisitedUserGroup(UserGroup group) {
-        throw new UnsupportedOperationException("Unimplemented method 'onVisitedUserGroup'");
+
     }
 }

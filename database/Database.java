@@ -92,7 +92,11 @@ public class Database implements Subject {
         UserSearcher userSearcher = new UserSearcher(UIDString);
         root.accept(userSearcher);
         System.out.println("Result: " + userSearcher.getSearchResult());
-        return userSearcher.getSearchResult().getUID();
+        if (userSearcher.getSearchResult() != null) {
+            return userSearcher.getSearchResult().getUID();
+        } else {
+            return null;
+        }
     }
 
     /**
