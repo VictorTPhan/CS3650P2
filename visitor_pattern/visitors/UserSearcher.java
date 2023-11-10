@@ -1,7 +1,7 @@
 package visitor_pattern.visitors;
 
-import project.groups.UserGroup;
-import project.users.User;
+import entries.User;
+import entries.UserGroup;
 import visitor_pattern.Traverser;
 
 /**

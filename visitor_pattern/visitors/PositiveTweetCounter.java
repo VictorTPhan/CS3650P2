@@ -1,8 +1,8 @@
 package visitor_pattern.visitors;
 
-import project.groups.UserGroup;
-import project.tweets.ITweet;
-import project.users.User;
+import entries.User;
+import entries.UserGroup;
+import tweets.ITweet;
 import visitor_pattern.Traverser;
 
 /**

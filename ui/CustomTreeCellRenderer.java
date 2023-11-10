@@ -1,11 +1,11 @@
-package project.ui;
+package ui;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
-import project.groups.UserGroup;
-import project.users.User;
+import entries.User;
+import entries.UserGroup;
 
 import java.awt.*;
 

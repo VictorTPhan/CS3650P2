@@ -1,6 +1,6 @@
-package project.tweets;
+package tweets;
 
-import project.users.User;
+import entries.User;
 
 /**
  * An interface representing a Tweet in the Twitter database.

@@ -1,4 +1,4 @@
-package project.ui;
+package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,11 +10,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import database.Database;
+import entries.UID;
+import entries.User;
+import entries.UserGroup;
 import observer_pattern.Listener;
 import observer_pattern.Subject;
-import project.groups.UserGroup;
-import project.users.UserUID;
-import project.users.User;
 
 /**
  * A Singleton that represents a UI window that adminstrators can use to manage
@@ -181,7 +181,7 @@ public class AdminPanel extends JFrame implements Listener {
             if (userObject instanceof User) {
                 JOptionPane.showMessageDialog(null, "You cannot add a group inside another user.");
             } else if (userObject instanceof UserGroup) {
-                ((UserGroup) userObject).addSubGroup(new UserGroup(groupNameTextArea.getText()).getUID());
+                ((UserGroup) userObject).addSubGroup(new UserGroup(groupNameTextArea.getText()));
             } else {
             }
         } else {
@@ -233,7 +233,7 @@ public class AdminPanel extends JFrame implements Listener {
      * valid UID was supplied to the "User View UID" text area.
      */
     protected void onOpenUserViewButtonClicked() {
-        UserUID uid = Database.getInstance().validateUID(userViewUIDTextArea.getText());
+        UID uid = Database.getInstance().validateUID(userViewUIDTextArea.getText());
         if (uid != null) {
             new UserView(uid);
         } else {
@@ -288,8 +288,8 @@ public class AdminPanel extends JFrame implements Listener {
      */
     private void addRootGroup(UserGroup rootGroup) {
         // Add all members
-        for (UserUID member : rootGroup.getMembers()) {
-            rootTreeNode.add(new DefaultMutableTreeNode(member.getUser()));
+        for (UID member : rootGroup.getMembers()) {
+            rootTreeNode.add(new DefaultMutableTreeNode(member.getDatabaseEntry()));
         }
 
         // Recursively add all subgroups
@@ -310,8 +310,8 @@ public class AdminPanel extends JFrame implements Listener {
         DefaultMutableTreeNode groupNode = new DefaultMutableTreeNode(group);
 
         // Add all members
-        for (UserUID member : group.getMembers()) {
-            groupNode.add(new DefaultMutableTreeNode(member.getUser()));
+        for (UID member : group.getMembers()) {
+            groupNode.add(new DefaultMutableTreeNode(member.getDatabaseEntry()));
         }
 
         // Recursively add all sub groups

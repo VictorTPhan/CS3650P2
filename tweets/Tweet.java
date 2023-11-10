@@ -1,14 +1,14 @@
-package project.tweets;
+package tweets;
 
-import project.users.UserUID;
-import project.users.User;
+import entries.UID;
+import entries.User;
 
 /**
  * A data representation of a Tweet in the Twitter database.
  */
 public class Tweet implements ITweet {
     private String content;
-    private UserUID poster;
+    private UID poster;
 
     /**
      * Creates a Tweet object.
@@ -16,7 +16,7 @@ public class Tweet implements ITweet {
      * @param content The actual content of the tweet, as a String.
      * @param poster  The UserUID of the tweet author.
      */
-    public Tweet(String content, UserUID poster) {
+    public Tweet(String content, UID poster) {
         this.content = content;
         this.poster = poster;
     }
@@ -28,6 +28,6 @@ public class Tweet implements ITweet {
 
     @Override
     public User getPoster() {
-        return poster.getUser();
+        return (User) poster.getDatabaseEntry();
     }
 }

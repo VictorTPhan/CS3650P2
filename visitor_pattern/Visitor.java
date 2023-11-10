@@ -1,7 +1,7 @@
 package visitor_pattern;
 
-import project.groups.UserGroup;
-import project.users.User;
+import entries.User;
+import entries.UserGroup;
 
 /**
  * An interface for any object with an encoded operation that it must perform on

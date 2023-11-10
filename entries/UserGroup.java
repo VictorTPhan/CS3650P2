@@ -1,20 +1,16 @@
-package project.groups;
+package entries;
 
 import java.util.HashSet;
 
 import database.Database;
-import project.users.UserUID;
-import visitor_pattern.Entity;
-import visitor_pattern.Visitor;
+import database.DatabaseEntry;
 
 /**
  * A representation of a UserGroup within the Twitter database, that maintains a
  * group of users and subgroups.
  */
-public class UserGroup implements Entity {
-    private String name;
-    private GroupUID groupUID;
-    private HashSet<UserUID> members;
+public class UserGroup extends DatabaseEntry {
+    private HashSet<UID> members;
     private HashSet<UserGroup> subGroups;
 
     /**
@@ -24,7 +20,7 @@ public class UserGroup implements Entity {
      */
     public UserGroup(String name) {
         this.name = name;
-        this.groupUID = new GroupUID(this);
+        this.uid = new UID(this);
         this.members = new HashSet<>();
         this.subGroups = new HashSet<>();
     }
@@ -36,15 +32,6 @@ public class UserGroup implements Entity {
      */
     public String getGroupName() {
         return name;
-    }
-
-    /**
-     * Gets the UID of this Group.
-     * 
-     * @return The GroupUID of this UserGroup, as a String.
-     */
-    public GroupUID getUID() {
-        return groupUID;
     }
 
     /**
@@ -61,7 +48,7 @@ public class UserGroup implements Entity {
      * 
      * @return A Hashset of Users that are members of this group.
      */
-    public HashSet<UserUID> getMembers() {
+    public HashSet<UID> getMembers() {
         return members;
     }
 
@@ -71,7 +58,7 @@ public class UserGroup implements Entity {
      * @param newMember The UserUID of the User that is being added.
      * @return True if the operation was successful.
      */
-    public boolean addMember(UserUID newMember) {
+    public boolean addMember(UID newMember) {
         if (members.contains(newMember)) {
             return false;
         } else {
@@ -87,19 +74,14 @@ public class UserGroup implements Entity {
      * @param subGroup The GroupUID of the UserGroup that is being added.
      * @return True if the operation was successful.
      */
-    public boolean addSubGroup(GroupUID subGroup) {
-        if (subGroups.contains(subGroup.getGroup())) {
+    public boolean addSubGroup(UserGroup subGroup) {
+        if (subGroups.contains(subGroup)) {
             return false;
         } else {
-            subGroups.add(subGroup.getGroup());
+            subGroups.add(subGroup);
             Database.getInstance().newEntryCallback();
             return true;
         }
-    }
-
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
     }
 
     @Override

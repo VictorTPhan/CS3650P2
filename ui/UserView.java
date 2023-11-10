@@ -1,4 +1,4 @@
-package project.ui;
+package ui;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -14,11 +14,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 import database.Database;
-import project.tweets.ITweet;
-import project.users.UserUID;
+import entries.UID;
+import entries.User;
+import tweets.ITweet;
 
 public class UserView extends JFrame {
-    private UserUID uid;
+    private User user;
 
     private JLabel userNameLabel;
     private JTextArea userUIDTextArea;
@@ -30,15 +31,15 @@ public class UserView extends JFrame {
     private JLabel newsFeedListLabel;
     private JList newsFeed;
 
-    public UserView(UserUID uid) {
-        this.uid = uid;
+    public UserView(UID uid) {
+        this.user = (User) uid.getDatabaseEntry();
 
         // Lets the associated user object link itself to this frame so that it may
         // notify the screen to rerender on data changes.
-        this.uid.getUser().linkToNewView(this);
+        user.linkToNewView(this);
 
         // Username Label
-        userNameLabel = new JLabel(uid.getUser().getUsername());
+        userNameLabel = new JLabel(user.getName());
         userNameLabel.setBounds(0, 0, 300, 30);
         add(userNameLabel);
 
@@ -101,7 +102,7 @@ public class UserView extends JFrame {
      * A method that is invoked whenever the "Post Tweet" button is clicked.
      */
     protected void onPostTweetButtonClicked() {
-        uid.getUser().tweet(tweetMessageTextArea.getText());
+        user.tweet(tweetMessageTextArea.getText());
     }
 
     /**
@@ -109,11 +110,11 @@ public class UserView extends JFrame {
      */
     protected void onFollowUserButtonClicked() {
         // Make sure that this user is valid first.
-        UserUID otherUID = Database.getInstance().validateUID(userUIDTextArea.getText());
+        UID otherUID = Database.getInstance().validateUID(userUIDTextArea.getText());
 
         // If possible, follow that user and refresh this frame's view.
         if (otherUID != null) {
-            uid.getUser().followUser(otherUID);
+            user.followUser(otherUID);
             refreshFollowingListView();
             refreshNewsFeed();
         } else {
@@ -128,8 +129,8 @@ public class UserView extends JFrame {
      */
     private String[] getFollowing() {
         List<String> output = new ArrayList<>();
-        for (UserUID following : uid.getUser().getFollowings()) {
-            output.add(following.getUser().getUsername());
+        for (User following : user.getFollowings()) {
+            output.add(following.getName());
         }
         return output.toArray(new String[0]);
     }
@@ -157,8 +158,8 @@ public class UserView extends JFrame {
      */
     private String[] getNewsFeed() {
         List<String> output = new ArrayList<>();
-        for (UserUID following : uid.getUser().getFollowings()) {
-            for (ITweet tweet : following.getUser().getTweets()) {
+        for (User following : user.getFollowings()) {
+            for (ITweet tweet : following.getTweets()) {
                 output.add(tweet.getTweet());
             }
         }

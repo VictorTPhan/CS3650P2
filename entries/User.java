@@ -1,14 +1,14 @@
-package project.users;
+package entries;
 
-import project.tweets.ITweet;
-import project.tweets.Tweet;
-import project.ui.UserView;
-import visitor_pattern.Entity;
+import tweets.ITweet;
+import tweets.Tweet;
+import ui.UserView;
 import visitor_pattern.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import database.DatabaseEntry;
 import observer_pattern.Listener;
 import observer_pattern.Subject;
 
@@ -16,11 +16,9 @@ import observer_pattern.Subject;
  * A representation of a User within the Twitter database, that can make their
  * own tweets and follow other users.
  */
-public class User implements Entity, Subject, Listener {
-    private String username;
-    private UserUID uid;
+public class User extends DatabaseEntry implements Subject, Listener {
     private List<Listener> followers;
-    private List<UserUID> followings;
+    private List<User> followings;
     private List<ITweet> tweets;
     private UserView associatedUserView;
 
@@ -30,8 +28,8 @@ public class User implements Entity, Subject, Listener {
      * @param username The username of this User as a String.
      */
     public User(String username) {
-        this.username = username;
-        this.uid = new UserUID(this);
+        this.name = username;
+        this.uid = new UID(this);
         this.followings = new ArrayList<>();
         this.tweets = new ArrayList<>();
         this.followers = new ArrayList<>();
@@ -39,29 +37,11 @@ public class User implements Entity, Subject, Listener {
     }
 
     /**
-     * Gets the username of this User.
-     * 
-     * @return The username of this user, as a String.
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * Gets the UID of this User.
-     * 
-     * @return The UserUID of this user, as a String.
-     */
-    public UserUID getUID() {
-        return uid;
-    }
-
-    /**
      * Gets the list of accounts this User is following.
      * 
      * @return The list of user this User is following, as an ArrayList of UserUIDs.
      */
-    public List<UserUID> getFollowings() {
+    public List<User> getFollowings() {
         return followings;
     }
 
@@ -93,9 +73,12 @@ public class User implements Entity, Subject, Listener {
      * 
      * @param other The User to follow.
      */
-    public void followUser(UserUID other) {
-        this.followings.add(other);
-        listenTo(other.getUser());
+    public void followUser(UID other) {
+        DatabaseEntry entry = other.getDatabaseEntry();
+        if (entry instanceof User) {
+            this.followings.add((User) entry);
+            listenTo((User) entry);
+        }
     }
 
     @Override
@@ -158,6 +141,6 @@ public class User implements Entity, Subject, Listener {
 
     @Override
     public String toString() {
-        return getUsername();
+        return getName();
     }
 }

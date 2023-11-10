@@ -1,22 +1,24 @@
-package project.users;
+package entries;
 
 import java.util.UUID;
 
+import database.DatabaseEntry;
+
 /**
- * A class that identifies a User object.
+ * A class that identifies an DatabaseEntry.
  */
-public class UserUID {
-    private User associatedUser;
+public class UID {
+    private DatabaseEntry associatedEntry;
     private String UID;
 
     /**
-     * Associates a newly instantiated UID with a particular User object and
-     * generates a UID for that user.
+     * Associates a newly instantiated UID with a particular DatabaseEntry object
+     * and generates a UID for that user.
      * 
      * @param associatedUser The User to associate this UID with.
      */
-    public UserUID(User associatedUser) {
-        this.associatedUser = associatedUser;
+    public UID(DatabaseEntry associatedEntry) {
+        this.associatedEntry = associatedEntry;
         this.UID = UUID.randomUUID().toString();
         System.out.println(this.UID);
     }
@@ -26,8 +28,8 @@ public class UserUID {
      * 
      * @return The User associated with this UID.
      */
-    public User getUser() {
-        return associatedUser;
+    public DatabaseEntry getDatabaseEntry() {
+        return associatedEntry;
     }
 
     /**

@@ -1,8 +1,8 @@
 package visitor_pattern;
 
-import project.groups.UserGroup;
-import project.users.UserUID;
-import project.users.User;
+import entries.UID;
+import entries.User;
+import entries.UserGroup;
 
 /**
  * A more concrete implementation of the Visitor interface that is designed to
@@ -35,8 +35,8 @@ public abstract class Traverser implements Visitor {
         onVisitedUserGroup(userGroup);
 
         // Perform an operation on all members of this group.
-        for (UserUID member : userGroup.getMembers()) {
-            member.getUser().accept(this);
+        for (UID member : userGroup.getMembers()) {
+            member.getDatabaseEntry().accept(this);
         }
 
         // Recursively perform this operation on all subgroups.
