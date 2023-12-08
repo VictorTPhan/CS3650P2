@@ -31,6 +31,8 @@ public class AdminPanel extends JFrame implements Listener {
     private JButton showGroupTotalButton;
     private JButton showMessagesTotalButton;
     private JButton showPositivePercentageButton;
+    private JButton validateUIDButton;
+    private JButton getLastUpdatedUserButton;
     private DefaultTreeModel databaseTreeModel;
     private DefaultMutableTreeNode rootTreeNode;
     private JTree databaseTree;
@@ -143,6 +145,26 @@ public class AdminPanel extends JFrame implements Listener {
             }
         });
         add(showPositivePercentageButton);
+
+        // Show Validate UID Button
+        validateUIDButton = new JButton("Validate UIDs");
+        validateUIDButton.setBounds(450, 470, 150, 75);
+        validateUIDButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onValidateUIDButtonClicked();
+            }
+        });
+        add(validateUIDButton);
+
+        // Show Get Most Recently Updated User Button
+        getLastUpdatedUserButton = new JButton("Get Most Recently Updated User");
+        getLastUpdatedUserButton.setBounds(620, 470, 150, 75);
+        getLastUpdatedUserButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onGetLastUpdatedUserButtonClicked();
+            }
+        });
+        add(getLastUpdatedUserButton);
 
         // Widgets Releated to the Database Tree
         rootTreeNode = new DefaultMutableTreeNode(Database.getInstance().getRoot());
@@ -278,6 +300,26 @@ public class AdminPanel extends JFrame implements Listener {
         int percentage = (int) ((((double) totalPositiveTweets) / totalMessages) * 100);
 
         JOptionPane.showMessageDialog(null, percentage + "% of tweets are positive.");
+    }
+
+    /**
+     * A method that is invoked whenever the "Validate UID" button is clicked on.
+     */
+    protected void onValidateUIDButtonClicked() {
+        boolean result = Database.getInstance().doUIDValidityCheck();
+        String resultText = result ? "All UIDs are valid." : "Invalid UIDs!";
+
+        JOptionPane.showMessageDialog(null, resultText);
+    }
+
+    /**
+     * A method that is invoked whenever the "Get Most Recently Updated User" button
+     * is clicked on.
+     */
+    protected void onGetLastUpdatedUserButtonClicked() {
+        UID result = Database.getInstance().getMostRecentlyUpdatedUser();
+
+        JOptionPane.showMessageDialog(null, "The most recently updated user has UID " + result.getUID());
     }
 
     /**

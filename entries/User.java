@@ -21,6 +21,8 @@ public class User extends DatabaseEntry implements Subject, Listener {
     private List<User> followings;
     private List<ITweet> tweets;
     private UserView associatedUserView;
+    private long creationTime;
+    private long lastUpdateTime;
 
     /**
      * Initializes all the fields of a User object.
@@ -33,6 +35,8 @@ public class User extends DatabaseEntry implements Subject, Listener {
         this.followings = new ArrayList<>();
         this.tweets = new ArrayList<>();
         this.followers = new ArrayList<>();
+        this.creationTime = System.currentTimeMillis();
+        this.lastUpdateTime = creationTime;
         associatedUserView = null;
     }
 
@@ -55,6 +59,34 @@ public class User extends DatabaseEntry implements Subject, Listener {
     }
 
     /**
+     * Gets the time this user was made.
+     * 
+     * @return the time in milliseconds that this user was made.
+     */
+    public long getCreationTime() {
+        return creationTime;
+    }
+
+    /**
+     * Gets the timestamp of when the user last made a post or when their news feed
+     * was updated.
+     * 
+     * @return the timestamp of the last user made a post or when their newsfeed was
+     *         updated.
+     */
+    public long getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    /**
+     * Resets the lastUpdateTime timestamp field of this User to the current time in
+     * milliseconds.
+     */
+    private void updateLastUpdateTimestamp() {
+        lastUpdateTime = System.currentTimeMillis();
+    }
+
+    /**
      * Creates a Tweet object and notifies all followers of a new Tweet.
      * 
      * @param content The textual portion of the Tweet itself.
@@ -63,6 +95,8 @@ public class User extends DatabaseEntry implements Subject, Listener {
     public Tweet tweet(String content) {
         Tweet tweet = new Tweet(content, uid);
         tweets.add(tweet);
+        updateLastUpdateTimestamp();
+        notifyUserView();
         notifyListeners();
         return tweet;
     }
@@ -79,6 +113,7 @@ public class User extends DatabaseEntry implements Subject, Listener {
             this.followings.add((User) entry);
             listenTo((User) entry);
         }
+        updateLastUpdateTimestamp();
     }
 
     @Override
@@ -109,6 +144,7 @@ public class User extends DatabaseEntry implements Subject, Listener {
 
     @Override
     public void update() {
+        updateLastUpdateTimestamp();
         notifyUserView();
     }
 

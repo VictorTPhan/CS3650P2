@@ -22,6 +22,8 @@ public class UserView extends JFrame {
     private User user;
 
     private JLabel userNameLabel;
+    private JLabel creationTimeLabel;
+    private JLabel lastUpdateTimeLabel;
     private JTextArea userUIDTextArea;
     private JButton followUserButton;
     private JTextArea tweetMessageTextArea;
@@ -43,14 +45,24 @@ public class UserView extends JFrame {
         userNameLabel.setBounds(0, 0, 300, 30);
         add(userNameLabel);
 
+        // Creation Time Label
+        creationTimeLabel = new JLabel("Created " + user.getCreationTime());
+        creationTimeLabel.setBounds(0, 10, 300, 30);
+        add(creationTimeLabel);
+
+        // Update Time Label
+        lastUpdateTimeLabel = new JLabel("Last Updated " + user.getLastUpdateTime());
+        lastUpdateTimeLabel.setBounds(0, 20, 300, 30);
+        add(lastUpdateTimeLabel);
+
         // User UID Text Area
         userUIDTextArea = new JTextArea(5, 5);
-        userUIDTextArea.setBounds(0, 30, 150, 75);
+        userUIDTextArea.setBounds(0, 50, 150, 75);
         add(userUIDTextArea);
 
         // Follow User Button
         followUserButton = new JButton("Follow User");
-        followUserButton.setBounds(180, 30, 150, 75);
+        followUserButton.setBounds(180, 50, 150, 75);
         followUserButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onFollowUserButtonClicked();
@@ -60,22 +72,22 @@ public class UserView extends JFrame {
 
         // Following List Label
         followingListLabel = new JLabel("Following List");
-        followingListLabel.setBounds(0, 100, 300, 30);
+        followingListLabel.setBounds(0, 120, 300, 30);
         add(followingListLabel);
 
         // Following List View
         followingList = new JList(getFollowing());
-        followingList.setBounds(0, 130, 300, 100);
+        followingList.setBounds(0, 150, 300, 100);
         add(followingList);
 
         // Tweet Text Area
         tweetMessageTextArea = new JTextArea(5, 5);
-        tweetMessageTextArea.setBounds(0, 240, 150, 75);
+        tweetMessageTextArea.setBounds(0, 260, 150, 75);
         add(tweetMessageTextArea);
 
         // Post Tweet Button
         postTweetButton = new JButton("Post Tweet");
-        postTweetButton.setBounds(180, 240, 150, 75);
+        postTweetButton.setBounds(180, 260, 150, 75);
         postTweetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onPostTweetButtonClicked();
@@ -85,12 +97,12 @@ public class UserView extends JFrame {
 
         // News Feed List Label
         newsFeedListLabel = new JLabel("News Feed");
-        newsFeedListLabel.setBounds(0, 320, 300, 30);
+        newsFeedListLabel.setBounds(0, 340, 300, 30);
         add(newsFeedListLabel);
 
         // News Feed List View
         newsFeed = new JList(getNewsFeed());
-        newsFeed.setBounds(0, 350, 300, 100);
+        newsFeed.setBounds(0, 370, 300, 100);
         add(newsFeed);
 
         setSize(500, 500);
@@ -179,5 +191,8 @@ public class UserView extends JFrame {
         }
 
         newsFeed.setModel(updatedNewsFeed);
+
+        // Update last update time label
+        lastUpdateTimeLabel.setText("Last Updated " + user.getLastUpdateTime());
     }
 }

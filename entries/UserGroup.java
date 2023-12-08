@@ -12,6 +12,7 @@ import database.DatabaseEntry;
 public class UserGroup extends DatabaseEntry {
     private HashSet<UID> members;
     private HashSet<UserGroup> subGroups;
+    private long creationTime;
 
     /**
      * Initializes all the fields of this UserGroup.
@@ -23,6 +24,7 @@ public class UserGroup extends DatabaseEntry {
         this.uid = new UID(this);
         this.members = new HashSet<>();
         this.subGroups = new HashSet<>();
+        this.creationTime = System.currentTimeMillis();
     }
 
     /**

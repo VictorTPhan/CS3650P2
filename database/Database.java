@@ -3,8 +3,10 @@ package database;
 import observer_pattern.Listener;
 import observer_pattern.Subject;
 import visitor_pattern.visitors.GroupCounter;
+import visitor_pattern.visitors.LastUpdatedTimestampFinder;
 import visitor_pattern.visitors.MessageCounter;
 import visitor_pattern.visitors.PositiveTweetCounter;
+import visitor_pattern.visitors.UIDValidator;
 import visitor_pattern.visitors.UserCounter;
 import visitor_pattern.visitors.UserSearcher;
 
@@ -144,5 +146,28 @@ public class Database implements Subject {
         PositiveTweetCounter positiveTweetCounter = new PositiveTweetCounter();
         root.accept(positiveTweetCounter);
         return positiveTweetCounter.getTotalPositiveTweets();
+    }
+
+    /**
+     * Does a check to see if all UIDs in the system are valid.
+     * 
+     * @return True if all UIDs are unique and have no spaces.
+     */
+    public boolean doUIDValidityCheck() {
+        UIDValidator uidValidator = new UIDValidator();
+        root.accept(uidValidator);
+        return uidValidator.getResult();
+    }
+
+    /**
+     * Determines the User with the most recently updated lastUpdateTime field in
+     * the system.
+     * 
+     * @return the UID of the resulting User.
+     */
+    public UID getMostRecentlyUpdatedUser() {
+        LastUpdatedTimestampFinder lastUpdatedTimestampFinder = new LastUpdatedTimestampFinder();
+        root.accept(lastUpdatedTimestampFinder);
+        return lastUpdatedTimestampFinder.getResult();
     }
 }
